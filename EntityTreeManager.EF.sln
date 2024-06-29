@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2A8E5F9D-75C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{811E5B61-EF79-419B-BB5F-80D3FE6743A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityTreeManager.EF", "src\EntityTreeManager.EF\EntityTreeManager.EF.csproj", "{D4D9381B-36CC-4EFF-9D52-74A6BE39A723}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityTreeManager.EF", "src\EntityTreeManager.EF\EntityTreeManager.EF.csproj", "{D4D9381B-36CC-4EFF-9D52-74A6BE39A723}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{F07039DD-8296-4800-B828-382A5DD925E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
