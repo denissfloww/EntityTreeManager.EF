@@ -1,38 +1,64 @@
 ﻿using EntityTreeManager.EF.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace EntityTreeManager.EF.Infrastructure;
 
-public class TreeEntityService<TEntity, TId> : ITreeEntityService<TEntity, TId>
-    where TEntity : TreeEntity<TId> where TId : struct
+public class TreeEntityService<TDbContext, TEntity, TId>(
+    TDbContext dbContext) : ITreeEntityService<TEntity, TId> where TDbContext : DbContext
+    where TEntity : TreeEntity<TId>
+    where TId : struct
 {
+    private DbSet<TEntity> TreeSet => dbContext.Set<TEntity>();
+
     public IQueryable<TreeEntity<TId>> GetRoots()
     {
-        throw new NotImplementedException();
+        return TreeSet.Where(c => c.ParentId == null).Include(c => c.Children);
     }
 
     public IQueryable<TreeEntity<TId>> GetChildren(TId id)
     {
-        throw new NotImplementedException();
+        return TreeSet.Where(c => c.ParentId != null &&
+                                  EqualityComparer<TId>.Default.Equals(c.ParentId.Value,
+                                      id))
+            .Include(c => c.Parent)
+            .Include(c => c.Children);
     }
 
-    public IQueryable<TreeEntity<TId>> GetChildren(TreeEntity<TId> category)
+    public IQueryable<TreeEntity<TId>> GetChildren(TreeEntity<TId> treeObject)
     {
-        throw new NotImplementedException();
+        return TreeSet.Where(c => c.Parent == treeObject)
+            .Include(c => c.Parent)
+            .Include(c => c.Children);
     }
 
-    public Task<TreeEntity<TId>?> GetByIdAsync(TId id)
+    public async Task<TreeEntity<TId>?> GetByIdAsync(TId id)
     {
-        throw new NotImplementedException();
+        return await TreeSet.Include(c => c.Parent)
+            .Include(c => c.Children)
+            .FirstOrDefaultAsync(i => EqualityComparer<TId>.Default.Equals(i.Id,
+                id));
     }
 
-    public Task<TreeEntity<TId>?> GetParentAsync(TreeEntity<TId> category)
+    public async Task<TreeEntity<TId>?> GetParentAsync(TreeEntity<TId> treeObject)
     {
-        throw new NotImplementedException();
+        if (treeObject?.ParentId == null)
+        {
+            return null;
+        }
+
+        return await GetByIdAsync(treeObject.ParentId.Value);
     }
 
-    public Task<TreeEntity<TId>?> GetParentAsync(TId categoryId)
+    public async Task<TreeEntity<TId>?> GetParentAsync(TId id)
     {
-        throw new NotImplementedException();
+        var treeObject = await GetByIdAsync(id);
+
+        if (treeObject?.ParentId == null)
+        {
+            return null;
+        }
+
+        return await GetByIdAsync(treeObject.ParentId.Value);
     }
 }
 
