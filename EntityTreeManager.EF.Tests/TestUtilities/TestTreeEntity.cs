@@ -1,6 +1,5 @@
-﻿namespace EntityTreeManager.EF.Tests.TestUtilities;
+﻿using EntityTreeManager.EF.Domain;
 
-public class TestTreeEntity
-{
-    
-}
+namespace EntityTreeManager.EF.Tests.TestUtilities;
+
+public class TestTreeEntity : TreeEntity<int>;
