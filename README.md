@@ -4,3 +4,16 @@ A library that encapsulates working with hierarchical entities and provides conv
 
 ![build workflow](https://github.com/denissfloww/EntityTreeManager.EF/actions/workflows/build.yml/badge.svg)
 
+Usage
+
+An example of using basic classes:
+
+```c#
+using Entity
+public class ConcreteEntity : TreeEntity<int>
+{
+    public int Id { get; set; }
+    
+    public int Name { get; set; }
+}
+```

@@ -7,6 +7,8 @@ public class GetByIdAsyncTests : TestBase
     [Fact]
     public async void GetById_ByExistId_ReturnsEntity()
     {
+
+        
         var entity = await _treeService.GetByIdAsync(1);
         Assert.NotNull(entity);
     }
