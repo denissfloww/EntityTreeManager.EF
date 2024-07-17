@@ -1,8 +1,0 @@
-﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b0bc0822_002Dc8b8_002D483f_002Dacd8_002D27e8513a61fe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::24A5CAC9-79E0-4845-84CD-482409E202A1::net8.0::EntityTreeManager.EF.Tests.GetChildrenTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::24A5CAC9-79E0-4845-84CD-482409E202A1::net8.0::EntityTreeManager.EF.Tests.GetByIdAsyncTests.GetById_ByExistId_ReturnsEntity&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::24A5CAC9-79E0-4845-84CD-482409E202A1::net8.0::EntityTreeManager.EF.Tests.GetByIdAsyncTests.GetById_NonExistingId_ReturnsNull&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
