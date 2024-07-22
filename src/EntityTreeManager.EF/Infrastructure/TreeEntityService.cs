@@ -24,9 +24,11 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
             .Include(c => c.Children);
     }
 
-    public IQueryable<TreeEntity<TId>> GetChildren(TreeEntity<TId> treeObject)
+    public IQueryable<TreeEntity<TId>> GetChildren(TreeEntity<TId> node)
     {
-        return TreeSet.Where(c => c.Parent == treeObject)
+        ArgumentNullException.ThrowIfNull(node, nameof(node));
+
+        return TreeSet.Where(c => c.Parent == node)
             .Include(c => c.Parent)
             .Include(c => c.Children);
     }
@@ -39,14 +41,16 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
                 id));
     }
 
-    public async Task<TreeEntity<TId>?> GetParentAsync(TreeEntity<TId> treeObject)
+    public async Task<TreeEntity<TId>?> GetParentAsync(TreeEntity<TId> node)
     {
-        if (treeObject?.ParentId == null)
+        ArgumentNullException.ThrowIfNull(node, nameof(node));
+
+        if (node.ParentId == null)
         {
             return null;
         }
 
-        return await GetByIdAsync(treeObject.ParentId.Value);
+        return await GetByIdAsync(node.ParentId.Value);
     }
 
     public async Task<TreeEntity<TId>?> GetParentAsync(TId id)
@@ -59,6 +63,43 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
         }
 
         return await GetByIdAsync(treeObject.ParentId.Value);
+    }
+
+    public async Task AssignParentAsync(TId childId, TId parentId)
+    {
+        var child = await GetByIdAsync(childId);
+        if (child != null)
+        {
+            child.ParentId = parentId;
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task DetachParentAsync(TId childId)
+    {
+        var child = await GetByIdAsync(childId);
+        if (child != null)
+        {
+            child.ParentId = null;
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task DetachNodeWithChildrenReassignment(TId nodeId)
+    {
+        var node = await GetByIdAsync(nodeId);
+        if (node != null)
+        {
+            var children = GetChildren(nodeId).ToList();
+
+            foreach (var child in children)
+            {
+                child.ParentId = node.ParentId;
+                dbContext.Update(child);
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
 

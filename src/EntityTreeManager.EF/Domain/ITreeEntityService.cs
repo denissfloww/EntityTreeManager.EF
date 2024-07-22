@@ -7,11 +7,17 @@ public interface ITreeEntityService<TEntity, TId> where TEntity : TreeEntity<TId
 
     IQueryable<TreeEntity<TId>> GetChildren(TId id);
 
-    IQueryable<TreeEntity<TId>> GetChildren(TreeEntity<TId> treeObject);
+    IQueryable<TreeEntity<TId>> GetChildren(TreeEntity<TId> node);
 
     Task<TreeEntity<TId>?> GetByIdAsync(TId id);
 
-    Task<TreeEntity<TId>?> GetParentAsync(TreeEntity<TId> treeObject);
+    Task<TreeEntity<TId>?> GetParentAsync(TreeEntity<TId> node);
 
-    Task<TreeEntity<TId>?> GetParentAsync(TId categoryId);
+    Task<TreeEntity<TId>?> GetParentAsync(TId id);
+
+    Task AssignParentAsync(TId childId, TId parentId);
+
+    Task DetachParentAsync(TId childId);
+
+    Task DetachNodeWithChildrenReassignment(TId nodeId);
 }

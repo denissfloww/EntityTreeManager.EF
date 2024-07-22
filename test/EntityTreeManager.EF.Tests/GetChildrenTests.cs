@@ -57,5 +57,11 @@ public class GetChildrenTests : TestBase
         var children = await _treeService.GetChildren(4).ToListAsync();
         Assert.Empty(children);
     }
+
+    [Fact]
+    public async void GetChildren_ByRootNode_ThrowNullException()
+    {
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => _treeService.GetChildren(null!).ToListAsync());
+    }
 }
 
