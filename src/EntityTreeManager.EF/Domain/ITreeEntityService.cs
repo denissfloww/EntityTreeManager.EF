@@ -15,7 +15,7 @@ public interface ITreeEntityService<TEntity, TId> where TEntity : TreeEntity<TId
 
     Task<TreeEntity<TId>?> GetParentAsync(TId id);
 
-    Task AssignParentAsync(TId childId, TId parentId);
+    Task AttachParentAsync(TId childId, TId parentId);
 
     Task DetachParentAsync(TId childId);
 

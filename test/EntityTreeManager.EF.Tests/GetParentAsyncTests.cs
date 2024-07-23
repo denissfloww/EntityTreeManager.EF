@@ -2,7 +2,7 @@
 
 namespace EntityTreeManager.EF.Tests;
 
-public class GetParentAsync : TestBase
+public class GetParentAsyncTests : TestBase
 {
     [Fact]
     public async void GetParentAsync_ByLeafNodeId_ReturnsParent()

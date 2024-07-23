@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EntityTreeManager.EF.Tests;
 
-public class GetRootsTests : TestBase
+public class GetRootsTestsTests : TestBase
 {
     [Fact]
     public async void GetRoots_ReturnsAllRoots()

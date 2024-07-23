@@ -65,7 +65,7 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
         return await GetByIdAsync(treeObject.ParentId.Value);
     }
 
-    public async Task AssignParentAsync(TId childId, TId parentId)
+    public async Task AttachParentAsync(TId childId, TId parentId)
     {
         var child = await GetByIdAsync(childId);
         if (child != null)
