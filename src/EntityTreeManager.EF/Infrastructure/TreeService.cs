@@ -3,19 +3,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EntityTreeManager.EF.Infrastructure;
 
-public class TreeEntityService<TDbContext, TEntity, TId>(
-    TDbContext dbContext) : ITreeEntityService<TEntity, TId> where TDbContext : DbContext
-    where TEntity : TreeEntity<TId>
+public class TreeService<TDbContext, TNode, TId>(
+    TDbContext dbContext) : ITreeService<TNode, TId> where TDbContext : DbContext
+    where TNode : TreeNode<TId>
     where TId : struct
 {
-    private DbSet<TEntity> TreeSet => dbContext.Set<TEntity>();
+    private DbSet<TNode> TreeSet => dbContext.Set<TNode>();
 
-    public IQueryable<TreeEntity<TId>> GetRoots()
+    public IQueryable<TreeNode<TId>> GetRoots()
     {
         return TreeSet.Where(c => c.ParentId == null).Include(c => c.Children);
     }
 
-    public IQueryable<TreeEntity<TId>> GetChildren(TId id)
+    public IQueryable<TreeNode<TId>> GetChildren(TId id)
     {
         return TreeSet.Where(c => c.ParentId != null &&
                                   EqualityComparer<TId>.Default.Equals(c.ParentId.Value,
@@ -24,7 +24,7 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
             .Include(c => c.Children);
     }
 
-    public IQueryable<TreeEntity<TId>> GetChildren(TreeEntity<TId> node)
+    public IQueryable<TreeNode<TId>> GetChildren(TreeNode<TId> node)
     {
         ArgumentNullException.ThrowIfNull(node, nameof(node));
 
@@ -33,7 +33,7 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
             .Include(c => c.Children);
     }
 
-    public async Task<TreeEntity<TId>?> GetByIdAsync(TId id)
+    public async Task<TreeNode<TId>?> GetByIdAsync(TId id)
     {
         return await TreeSet.Include(c => c.Parent)
             .Include(c => c.Children)
@@ -41,7 +41,7 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
                 id));
     }
 
-    public async Task<TreeEntity<TId>?> GetParentAsync(TreeEntity<TId> node)
+    public async Task<TreeNode<TId>?> GetParentAsync(TreeNode<TId> node)
     {
         ArgumentNullException.ThrowIfNull(node, nameof(node));
 
@@ -53,7 +53,7 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
         return await GetByIdAsync(node.ParentId.Value);
     }
 
-    public async Task<TreeEntity<TId>?> GetParentAsync(TId id)
+    public async Task<TreeNode<TId>?> GetParentAsync(TId id)
     {
         var treeObject = await GetByIdAsync(id);
 
@@ -65,9 +65,9 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
         return await GetByIdAsync(treeObject.ParentId.Value);
     }
 
-    public async Task AttachParentAsync(TId childId, TId parentId)
+    public async Task AttachParentAsync(TId nodeId, TId parentId)
     {
-        var child = await GetByIdAsync(childId);
+        var child = await GetByIdAsync(nodeId);
         if (child != null)
         {
             child.ParentId = parentId;
@@ -75,9 +75,9 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
         }
     }
 
-    public async Task DetachParentAsync(TId childId)
+    public async Task DetachFromParentAsync(TId nodeId)
     {
-        var child = await GetByIdAsync(childId);
+        var child = await GetByIdAsync(nodeId);
         if (child != null)
         {
             child.ParentId = null;
@@ -85,7 +85,7 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
         }
     }
 
-    public async Task DetachNodeWithChildrenReassignment(TId nodeId)
+    public async Task DetachFromTreeAsync(TId nodeId)
     {
         var node = await GetByIdAsync(nodeId);
         if (node != null)
@@ -98,6 +98,7 @@ public class TreeEntityService<TDbContext, TEntity, TId>(
                 dbContext.Update(child);
             }
 
+            await DetachFromParentAsync(nodeId);
             await dbContext.SaveChangesAsync();
         }
     }

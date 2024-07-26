@@ -10,7 +10,7 @@ An example of using basic classes:
 
 ```c#
 using Entity
-public class ConcreteEntity : TreeEntity<int>
+public class ConcreteEntity : TreeNode<int>
 {
     public int Id { get; set; }
     

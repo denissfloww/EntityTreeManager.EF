@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntityTreeManager.EF.Infrastructure;
 
-public class TreeEntityConfiguration<TEntity, TId> : IEntityTypeConfiguration<TEntity> where TEntity : TreeEntity<TId>
+public class TreeEntityConfiguration<TNode, TId> : IEntityTypeConfiguration<TNode> where TNode : TreeNode<TId>
     where TId : struct
 {
-    public void Configure(EntityTypeBuilder<TEntity> builder)
+    public void Configure(EntityTypeBuilder<TNode> builder)
     {
         builder.HasKey(ent => ent.Id);
         builder
             .HasOne(c => c.Parent)
-            .WithMany(c => c.Children as IEnumerable<TEntity>)
+            .WithMany(c => c.Children as IEnumerable<TNode>)
             .HasForeignKey(c => c.ParentId);
     }
 }
