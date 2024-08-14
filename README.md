@@ -9,7 +9,8 @@ Usage
 An example of using basic classes:
 
 ```c#
-using Entity
+using Entity;
+
 public class ConcreteEntity : TreeNode<int>
 {
     public int Id { get; set; }
