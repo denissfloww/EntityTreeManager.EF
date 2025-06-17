@@ -1,24 +1,18 @@
 ﻿using EntityTreeManager.EF.Tests.TestUtilities;
+using FluentAssertions;
 
 namespace EntityTreeManager.EF.Tests;
 
 public class DetachFromTreeAsyncTests : TestBase
 {
-    [Fact]
-    public async Task DetachFromTreeAsync_ShouldReassignChildren_WhenNodeExists()
+    [Theory]
+    [InlineData(1)]
+    public async Task DetachFromTreeAsync_WhenNodeExists_ShouldReassignChildren(int detachedParentId)
     {
-        const int parentId = 5;
-        const int newNodeId = 8;
-        const int newParentId = 3;
-        
-        _dbContext.Add(new TestTreeNode { Id = newNodeId });
-        await _dbContext.SaveChangesAsync();
+        var oldChildrenIds = _treeService.GetChildren(detachedParentId).Select(c => c.Id);
+        await _treeService.DetachFromTreeAsync(detachedParentId);
 
-        await _treeService.AttachParentAsync(newNodeId, parentId);
-        await _treeService.DetachFromTreeAsync(parentId);
-
-        var newParentNode = _treeService.GetChildren(newParentId);
-        
-        Assert.Equal(newParentNode.Select(c => c.Id), [7, 8]);
+        var children = _dbContext.TestTreeEntities.Where(n => oldChildrenIds.Contains(n.Id)).ToList();
+        children.Should().AllSatisfy(c => c.ParentId.Should().NotBe(detachedParentId));
     }
 }

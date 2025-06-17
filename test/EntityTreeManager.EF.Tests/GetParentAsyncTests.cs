@@ -1,47 +1,59 @@
 ﻿using EntityTreeManager.EF.Tests.TestUtilities;
+using FluentAssertions;
 
 namespace EntityTreeManager.EF.Tests;
 
 public class GetParentAsyncTests : TestBase
 {
-    [Fact]
-    public async void GetParentAsync_ByLeafNodeId_ReturnsParent()
+    [Theory]
+    [InlineData(4, 1)]
+    [InlineData(3, 1)]
+    [InlineData(7, 5)]
+    public async Task GetParentAsync_ByChildId_ReturnsParent(int childId, int expectedParentId)
     {
-        var parent = await _treeService.GetParentAsync(4);
+        var parent = await _treeService.GetParentAsync(childId);
 
-        Assert.NotNull(parent);
-        Assert.Equal(parent.Id, 1);
+        parent.Should().NotBeNull();
+        parent!.Id.Should().Be(expectedParentId);
+    }
+    
+    [Theory]
+    [InlineData(5, 3)]
+    [InlineData(4, 1)]
+    [InlineData(3, 1)]
+    [InlineData(7, 5)]
+    public async Task GetParentAsync_ByChild_ReturnsParent(int childId, int expectedParentId)
+    {
+        var child = await _dbContext.TestTreeEntities.FindAsync(childId);
+        child.Should().NotBeNull();
+
+        var parent = await _treeService.GetParentAsync(child);
+        
+        parent.Should().NotBeNull();
+        parent!.Id.Should().Be(expectedParentId);
     }
 
-    [Fact]
-    public async void GetParentAsync_ByRootNodeId_ReturnsNull()
-    {
-        var parent = await _treeService.GetParentAsync(2);
 
-        Assert.Null(parent);
+    [Theory]
+    [InlineData(2)]
+    [InlineData(1)]
+    public async Task GetParentAsync_ByRootNodeId_ReturnsNull(int rootId)
+    {
+        var root = await _treeService.GetParentAsync(rootId);
+
+        root.Should().BeNull();
     }
-
-    [Fact]
-    public async void GetParentAsync_ByLeafNode_ReturnsParent()
+    
+    [Theory]
+    [InlineData(2)]
+    [InlineData(1)]
+    public async Task GetParentAsync_ByRootNode_ReturnsNull(int rootId)
     {
-        var leafEntity = await _dbContext.TestTreeEntities.FindAsync(5);
-        Assert.NotNull(leafEntity);
-
-        var parent = await _treeService.GetParentAsync(leafEntity);
-
-        Assert.NotNull(parent);
-        Assert.Equal(parent.Id, 3);
-    }
-
-    [Fact]
-    public async void GetParentAsync_ByRootNode_ReturnsNull()
-    {
-        var rootEntity = await _dbContext.TestTreeEntities.FindAsync(1);
-        Assert.NotNull(rootEntity);
-
-        var parent = await _treeService.GetParentAsync(rootEntity);
-
-        Assert.Null(parent);
+        var root = await _dbContext.TestTreeEntities.FindAsync(rootId);
+        root.Should().NotBeNull();
+        
+        var parent = await _treeService.GetParentAsync(root);
+        parent.Should().BeNull();
     }
 }
 

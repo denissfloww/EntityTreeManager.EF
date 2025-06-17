@@ -1,32 +1,29 @@
 ﻿using EntityTreeManager.EF.Tests.TestUtilities;
+using FluentAssertions;
 
 namespace EntityTreeManager.EF.Tests;
 
 public class DetachFromParentAsyncTests : TestBase
 {
-    [Fact]
-    public async void DetachFromParentAsync_ByChildIdExistParent_ShouldDetach()
+    [Theory]
+    [InlineData(6)]
+    [InlineData(4)]
+    public async Task DetachFromParentAsync_ByChildIdExistParent_ShouldDetach(int childId)
     {
-        const int childId = 6;
-
         await _treeService.DetachFromParentAsync(childId);
-
+        
         var childNode = await _treeService.GetByIdAsync(childId);
-        Assert.NotNull(childNode);
-        Assert.Null(childNode.ParentId);
+        
+        childNode.Should().NotBeNull();
+        childNode.ParentId.Should().BeNull();
     }
 
-    [Fact]
-    public async Task DetachFromParentAsync_ByChildIdNonExistParent_NotThrowsException()
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    public async Task DetachFromParentAsync_ByChildIdNonExistParent_NotThrowsException(int childId)
     {
-        const int childId = 2;
-        try
-        {
-            await _treeService.DetachFromParentAsync(childId);
-        }
-        catch (Exception ex)
-        {
-            Assert.Fail("Expected no exception, but got: " + ex.Message);
-        }
+        var act = async () => await _treeService.DetachFromParentAsync(childId);
+        await act.Should().NotThrowAsync();
     }
 }
