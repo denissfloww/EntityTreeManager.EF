@@ -9,6 +9,8 @@ public interface ITreeNode<TId> where TId : struct
     ITreeNode<TId>? Parent { get; set; }
 
     IEnumerable<ITreeNode<TId>>? Children { get; set; }
+    
+    
 
     bool HasChildren => Children != null && Children.Any();
 }

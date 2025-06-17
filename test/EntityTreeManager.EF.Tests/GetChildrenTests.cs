@@ -1,67 +1,41 @@
 ﻿using EntityTreeManager.EF.Tests.TestUtilities;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
 namespace EntityTreeManager.EF.Tests;
 
 public class GetChildrenTests : TestBase
 {
-    [Fact]
-    public async void GetChildren_ByRootNodeId_ReturnsChildren()
+    [Theory]
+    [InlineData(1, new[] {3, 4})]
+    [InlineData(3, new[] {5})]
+    [InlineData(4, new int[] { })]
+    public async Task GetChildren_ByRootNodeId_ReturnsChildren(int parentId, int[] expectedNodeIds)
     {
-        var children = await _treeService.GetChildren(1).ToListAsync();
+        var children = await _treeService.GetChildren(parentId).ToListAsync();
 
-        Assert.NotNull(children);
-        Assert.Equal(2, children.Count);
-        Assert.Equal(children.Select(c => c.Id), [3, 4]);
+        children.Should().NotBeNull();
+        children.Select(c => c.Id).Should().Equal(expectedNodeIds);
     }
 
-    [Fact]
-    public async void GetChildren_ByRootNode_ReturnsChildren()
+    [Theory]
+    [InlineData(1, new[] {3, 4})]
+    [InlineData(3, new[] {5})]
+    [InlineData(4, new int[] { })]
+    public async Task GetChildren_ByRootNode_ReturnsChildren(int parentId, int[] expectedNodeIds)
     {
-        var rootEntity = await _dbContext.TestTreeEntities.FindAsync(1);
-        Assert.NotNull(rootEntity);
+        var rootEntity = await _dbContext.TestTreeEntities.FindAsync(parentId);
+        rootEntity.Should().NotBeNull();
 
         var children = await _treeService.GetChildren(rootEntity).ToListAsync();
-
-        Assert.NotNull(rootEntity);
-        Assert.Equal(2, children.Count);
-        Assert.Equal(children.Select(c => c.Id), [3, 4]);
+        children.Select(c => c.Id).Should().Equal(expectedNodeIds);
     }
 
     [Fact]
-    public async void GetChildren_ByLeafNodeId_ReturnsChildren()
+    public async Task GetChildren_ByRootNode_ThrowNullException()
     {
-        var children = await _treeService.GetChildren(3).ToListAsync();
-
-        Assert.NotNull(children);
-        Assert.Single(children);
-        Assert.Equal(children.Select(c => c.Id), [5]);
-    }
-
-    [Fact]
-    public async void GetChildren_ByLeafNode_ReturnsChildren()
-    {
-        var rootEntity = await _dbContext.TestTreeEntities.FindAsync(3);
-        Assert.NotNull(rootEntity);
-
-        var children = await _treeService.GetChildren(rootEntity).ToListAsync();
-
-        Assert.NotNull(rootEntity);
-        Assert.Single(children);
-        Assert.Equal(children.Select(c => c.Id), [5]);
-    }
-
-    [Fact]
-    public async void GetChildren_NoChildren_ReturnsEmpty()
-    {
-        var children = await _treeService.GetChildren(4).ToListAsync();
-        Assert.Empty(children);
-    }
-
-    [Fact]
-    public async void GetChildren_ByRootNode_ThrowNullException()
-    {
-        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => _treeService.GetChildren(null!).ToListAsync());
+        var act = () => _treeService.GetChildren(null!).ToListAsync();
+        await act.Should().ThrowAsync<ArgumentNullException>();
     }
 }
 
