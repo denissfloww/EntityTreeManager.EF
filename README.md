@@ -6,7 +6,7 @@ A library that encapsulates working with hierarchical entities and provides conv
 
 ## Overview
 
-`TreeService<TDbContext, TNode, TId>` is a generic service for managing hierarchical tree structures within an Entity Framework context. This service provides methods for retrieving and manipulating tree nodes, including operations for attaching, detaching, and querying nodes and their relationships.
+`TreeNodeManager<TDbContext, TNode, TId>` is a generic service for managing hierarchical tree structures within an Entity Framework context. This service provides methods for retrieving and manipulating tree nodes, including operations for attaching, detaching, and querying nodes and their relationships.
 
 ### Type Parameters
 
@@ -62,12 +62,12 @@ public class ApplicationDbContext : DbContext
 }
 ```
 
-### Step 3: Dependency Registration for `ITreeService<TNode, TId>`
+### Step 3: Dependency Registration for `ITreeNodeManager<TNode, TId>`
 
 In your DbContext class, you need to configure the Category entity using `TreeEntityConfiguration`
 
 ```c#
-builder.Services.AddScoped<ITreeService<Category, int>, TreeService<ApplicationDbContext, Category, int>>();
+builder.Services.AddScoped<ITreeNodeManager<Category, int>, TreeNodeManager<ApplicationDbContext, Category, int>>();
 ```
 
 ## Methods
