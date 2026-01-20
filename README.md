@@ -135,22 +135,13 @@ Asynchronously retrieves the parent of the node specified by its identifier.
 **Returns**: `Task<ITreeNode?>`  
 The task result contains the parent node if found; otherwise, `null`.
 
-### `AttachParentAsync(TId nodeId, TId parentId)`
+### `SetParentAsync(TId nodeId, TId parentId)`
 
-Asynchronously attaches a node to a new parent.
+Asynchronously attaches a node to a new parent or detaches.
 
 **Parameters**:
 - `nodeId` (TId): The identifier of the node to be attached.
-- `parentId` (TId): The identifier of the parent node.
-
-**Returns**: `Task`
-
-### `DetachFromParentAsync(TId nodeId)`
-
-Asynchronously detaches a node from its current parent.
-
-**Parameters**:
-- `nodeId` (TId): The identifier of the node to be detached.
+- `parentId` (TId?): The identifier of the parent node. Can be null to detach the node.
 
 **Returns**: `Task`
 

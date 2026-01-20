@@ -13,7 +13,7 @@
 /// This interface provides an abstraction for working with tree structures, 
 /// offering methods for managing nodes as well as other operations related to hierarchical data structures.
 /// </remarks>
-public interface ITreeNodeManager<TNode, in TId> 
+public interface ITreeNodeManager<TNode, TId> 
     where TNode : class, ITreeNode<TNode, TId>
     where TId : struct
 {
@@ -71,24 +71,8 @@ public interface ITreeNodeManager<TNode, in TId>
     /// Asynchronously attaches a node to a new parent.
     /// </summary>
     /// <param name="nodeId">The identifier of the node to be attached.</param>
-    /// <param name="parentId">The identifier of the parent node.</param>
+    /// <param name="newParentId">The identifier of the parent node. Can be null to detach</param>
     /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    Task AttachParentAsync(TId nodeId, TId parentId, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Asynchronously detaches a node from its current parent.
-    /// </summary>
-    /// <param name="nodeId">The identifier of the node to be detached.</param>
-    /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    Task DetachFromParentAsync(TId nodeId, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Asynchronously removes a node from the tree and reassigns its children to its parent node.
-    /// </summary>
-    /// <param name="nodeId">The identifier of the node to be removed.</param>
-    /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    Task DetachFromTreeAsync(TId nodeId, CancellationToken cancellationToken);
+    Task MoveToAsync(TId nodeId, TId? newParentId, CancellationToken cancellationToken);
 }
