@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>EntityTreeManager.EF.Core</RootNamespace>
+    <RootNamespace>TreeFlow.EF.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EntityTreeManager.EF.Abstractions\EntityTreeManager.EF.Abstractions.csproj" />
+    <ProjectReference Include="..\TreeFlow.EF.Abstractions\TreeFlow.EF.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

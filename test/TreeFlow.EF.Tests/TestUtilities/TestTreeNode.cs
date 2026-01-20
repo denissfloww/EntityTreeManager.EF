@@ -1,6 +1,6 @@
-﻿using EntityTreeManager.EF.Abstractions;
+﻿using TreeFlow.EF.Abstractions;
 
-namespace EntityTreeManager.EF.Tests.TestUtilities;
+namespace TreeFlow.EF.Tests.TestUtilities;
 
 public class TestTreeNode : ITreeNode<TestTreeNode, int>
 {

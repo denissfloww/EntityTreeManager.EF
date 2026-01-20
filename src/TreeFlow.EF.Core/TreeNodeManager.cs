@@ -1,7 +1,7 @@
-﻿using EntityTreeManager.EF.Abstractions;
+﻿using TreeFlow.EF.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityTreeManager.EF.Core;
+namespace TreeFlow.EF.Core;
 
 public class TreeNodeManager<TNode, TId>(
     DbContext dbContext) : ITreeNodeManager<TNode, TId> 

@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2A8E5F9D-75C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{811E5B61-EF79-419B-BB5F-80D3FE6743A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityTreeManager.EF.Core", "src\EntityTreeManager.EF.Core\EntityTreeManager.EF.Core.csproj", "{D4D9381B-36CC-4EFF-9D52-74A6BE39A723}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TreeFlow.EF.Core", "src\TreeFlow.EF.Core\TreeFlow.EF.Core.csproj", "{D4D9381B-36CC-4EFF-9D52-74A6BE39A723}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityTreeManager.EF.Tests", "test\EntityTreeManager.EF.Tests\EntityTreeManager.EF.Tests.csproj", "{24A5CAC9-79E0-4845-84CD-482409E202A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeFlow.EF.Tests", "test\TreeFlow.EF.Tests\TreeFlow.EF.Tests.csproj", "{24A5CAC9-79E0-4845-84CD-482409E202A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityTreeManager.EF.Abstractions", "src\EntityTreeManager.EF.Abstractions\EntityTreeManager.EF.Abstractions.csproj", "{80AEEFCF-6ABC-474D-992C-7B195917C23D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeFlow.EF.Abstractions", "src\TreeFlow.EF.Abstractions\TreeFlow.EF.Abstractions.csproj", "{80AEEFCF-6ABC-474D-992C-7B195917C23D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

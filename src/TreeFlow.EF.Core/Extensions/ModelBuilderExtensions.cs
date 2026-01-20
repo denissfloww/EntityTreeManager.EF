@@ -1,8 +1,8 @@
-﻿using EntityTreeManager.EF.Abstractions;
-using EntityTreeManager.EF.Core.Configurations;
+﻿using TreeFlow.EF.Abstractions;
+using TreeFlow.EF.Core.Configurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityTreeManager.EF.Core.Extensions;
+namespace TreeFlow.EF.Core.Extensions;
 
 public static class ModelBuilderExtensions
 {

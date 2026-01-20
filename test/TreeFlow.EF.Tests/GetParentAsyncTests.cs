@@ -1,7 +1,7 @@
-﻿using EntityTreeManager.EF.Tests.TestUtilities;
+﻿using TreeFlow.EF.Tests.TestUtilities;
 using FluentAssertions;
 
-namespace EntityTreeManager.EF.Tests;
+namespace TreeFlow.EF.Tests;
 
 public class GetParentAsyncTests : TestBase
 {
