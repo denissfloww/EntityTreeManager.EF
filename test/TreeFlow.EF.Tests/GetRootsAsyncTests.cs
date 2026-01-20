@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TreeFlow.EF.Tests;
 
-public class GetRootsTestsTests : TestBase
+public class GetRootsAsyncTests : TestBase
 {
     [Fact]
     public async Task GetRoots_ReturnsAllRoots()
