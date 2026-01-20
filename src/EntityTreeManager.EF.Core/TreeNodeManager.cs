@@ -33,15 +33,15 @@ public class TreeNodeManager<TNode, TId>(
             .Include(c => c.Children);
     }
 
-    public async Task<TNode?> GetByIdAsync(TId id)
+    public async Task<TNode?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
     {
         return await TreeSet.Include(c => c.Parent)
             .Include(c => c.Children)
             .FirstOrDefaultAsync(i => EqualityComparer<TId>.Default.Equals(i.Id,
-                id));
+                id), cancellationToken);
     }
-
-    public async Task<TNode?> GetParentAsync(TNode node)
+    
+    public async Task<TNode?> GetParentAsync(TNode node, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(node, nameof(node));
 
@@ -50,44 +50,44 @@ public class TreeNodeManager<TNode, TId>(
             return null;
         }
 
-        return await GetByIdAsync(node.ParentId.Value);
+        return await GetByIdAsync(node.ParentId.Value, cancellationToken);
     }
 
-    public async Task<TNode?> GetParentAsync(TId id)
+    public async Task<TNode?> GetParentAsync(TId id, CancellationToken cancellationToken = default)
     {
-        var treeObject = await GetByIdAsync(id);
+        var treeObject = await GetByIdAsync(id, cancellationToken);
 
         if (treeObject?.ParentId == null)
         {
             return null;
         }
 
-        return await GetByIdAsync(treeObject.ParentId.Value);
+        return await GetByIdAsync(treeObject.ParentId.Value, cancellationToken);
     }
 
-    public async Task AttachParentAsync(TId nodeId, TId parentId)
+    public async Task AttachParentAsync(TId nodeId, TId parentId, CancellationToken cancellationToken = default)
     {
-        var child = await GetByIdAsync(nodeId);
+        var child = await GetByIdAsync(nodeId, cancellationToken);
         if (child != null)
         {
             child.ParentId = parentId;
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 
-    public async Task DetachFromParentAsync(TId nodeId)
+    public async Task DetachFromParentAsync(TId nodeId, CancellationToken cancellationToken = default)
     {
-        var child = await GetByIdAsync(nodeId);
+        var child = await GetByIdAsync(nodeId, cancellationToken);
         if (child != null)
         {
             child.ParentId = null;
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 
-    public async Task DetachFromTreeAsync(TId nodeId)
+    public async Task DetachFromTreeAsync(TId nodeId, CancellationToken cancellationToken = default)
     {
-        var node = await GetByIdAsync(nodeId);
+        var node = await GetByIdAsync(nodeId, cancellationToken);
         if (node != null)
         {
             var children = GetChildren(nodeId).ToList();
@@ -98,8 +98,8 @@ public class TreeNodeManager<TNode, TId>(
                 dbContext.Update(child);
             }
 
-            await DetachFromParentAsync(nodeId);
-            await dbContext.SaveChangesAsync();
+            await DetachFromParentAsync(nodeId, cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
