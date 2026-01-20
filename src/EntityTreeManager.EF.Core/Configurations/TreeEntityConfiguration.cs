@@ -1,8 +1,8 @@
-﻿using EntityTreeManager.EF.Domain;
+﻿using EntityTreeManager.EF.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EntityTreeManager.EF.Infrastructure;
+namespace EntityTreeManager.EF.Core.Configurations;
 
 /// <summary>
 /// Configures the entity type mapping for a tree node entity in the Entity Framework model.

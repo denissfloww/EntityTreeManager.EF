@@ -1,7 +1,7 @@
-﻿using EntityTreeManager.EF.Domain;
+﻿using EntityTreeManager.EF.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityTreeManager.EF.Infrastructure;
+namespace EntityTreeManager.EF.Core;
 
 public class TreeNodeManager<TDbContext, TNode, TId>(
     TDbContext dbContext) : ITreeNodeManager<TNode, TId> where TDbContext : DbContext

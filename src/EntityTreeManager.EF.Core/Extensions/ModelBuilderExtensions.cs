@@ -1,7 +1,8 @@
-﻿using EntityTreeManager.EF.Domain;
+﻿using EntityTreeManager.EF.Abstractions;
+using EntityTreeManager.EF.Core.Configurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityTreeManager.EF.Infrastructure;
+namespace EntityTreeManager.EF.Core.Extensions;
 
 public static class ModelBuilderExtensions
 {
