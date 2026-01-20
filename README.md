@@ -11,18 +11,24 @@ A library that encapsulates working with hierarchical entities and provides conv
 ### Type Parameters
 
 - **TDbContext**: The type of the Entity Framework `DbContext`.
-- **TNode**: The type of the tree node, which must inherit from `TreeNode<TId>`.
+- **TNode**: The type of the tree node, which must implement `ITreeNode<TNode,TId>`.
 - **TId**: The type of the node identifier, which must be a value type.
 
 ## Configuration
 ### Step 1: Define the Entity Class
 
 ```c#
-public class Category : TreeNode<int>
+public class Category : ITreeNode<Category, int>
 {
     public int Id { get; set; }
     
     public int Name { get; set; }
+    
+    public int? ParentId { get; set; }
+    
+    public Category? Parent { get; set; }
+    
+    public IEnumerable<Category>? Children { get; set; } = new List<Category>();
 }
 ```
 
@@ -76,7 +82,7 @@ builder.Services.AddScoped<ITreeNodeManager<Category, int>, TreeNodeManager<Appl
 
 Retrieves the root nodes of the tree.
 
-**Returns**: `IQueryable<TreeNode<TId>>`  
+**Returns**: `IQueryable<ITreeNode>`  
 A collection of root nodes.
 
 ### `GetChildren(TId id)`
@@ -86,17 +92,17 @@ Retrieves the child nodes of a specified parent node by its identifier.
 **Parameters**:
 - `id` (TId): The identifier of the parent node.
 
-**Returns**: `IQueryable<TreeNode<TId>>`  
+**Returns**: `IQueryable<ITreeNode>`  
 A collection of child nodes.
 
-### `GetChildren(TreeNode<TId> node)`
+### `GetChildren(ITreeNode node)`
 
 Retrieves the child nodes of a specified parent node.
 
 **Parameters**:
-- `node` (TreeNode<TId>): The parent node.
+- `node` (ITreeNode): The parent node.
 
-**Returns**: `IQueryable<TreeNode<TId>>`  
+**Returns**: `IQueryable<ITreeNode>`  
 A collection of child nodes.
 
 ### `GetByIdAsync(TId id)`
@@ -106,17 +112,17 @@ Asynchronously retrieves a node by its identifier.
 **Parameters**:
 - `id` (TId): The identifier of the node.
 
-**Returns**: `Task<TreeNode<TId>?>`  
+**Returns**: `Task<ITreeNode?>`  
 The task result contains the node if found; otherwise, `null`.
 
-### `GetParentAsync(TreeNode<TId> node)`
+### `GetParentAsync(ITreeNode node)`
 
 Asynchronously retrieves the parent of the specified node.
 
 **Parameters**:
-- `node` (TreeNode<TId>): The node whose parent is to be retrieved.
+- `node` (ITreeNode): The node whose parent is to be retrieved.
 
-**Returns**: `Task<TreeNode<TId>?>`  
+**Returns**: `Task<ITreeNode?>`  
 The task result contains the parent node if found; otherwise, `null`.
 
 ### `GetParentAsync(TId id)`
@@ -126,7 +132,7 @@ Asynchronously retrieves the parent of the node specified by its identifier.
 **Parameters**:
 - `id` (TId): The identifier of the node.
 
-**Returns**: `Task<TreeNode<TId>?>`  
+**Returns**: `Task<ITreeNode?>`  
 The task result contains the parent node if found; otherwise, `null`.
 
 ### `AttachParentAsync(TId nodeId, TId parentId)`

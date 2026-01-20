@@ -1,5 +1,6 @@
 ﻿using EntityTreeManager.EF.Tests.TestUtilities;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 
 namespace EntityTreeManager.EF.Tests;
 
@@ -11,7 +12,9 @@ public class AttachParentAsyncTests : TestBase
     public async Task AttachParentAsync_AttachesCorrectly(int childId, int parentId)
     {
         await TreeNodeManager.AttachParentAsync(childId, parentId);
-        var parentNode = await DbContext.TestTreeEntities.FindAsync(parentId);
+        var parentNode = await DbContext.TestTreeEntities
+            .Include(n => n.Children)
+            .FirstOrDefaultAsync(n => n.Id == parentId);
 
         parentNode.Should().NotBeNull();
         parentNode.Children.Should().NotBeNull();
@@ -26,9 +29,11 @@ public class AttachParentAsyncTests : TestBase
         const int parentId = 6;
         
         await TreeNodeManager.AttachParentAsync(childId, parentId);
-        var parentNode = await DbContext.TestTreeEntities.FindAsync(parentId);
+        var parentNode = await DbContext.TestTreeEntities
+            .Include(n => n.Children)
+            .FirstOrDefaultAsync(n => n.Id == parentId);
         
         parentNode.Should().NotBeNull();
-        parentNode.Children.Should().BeNull();
+        parentNode.Children.Should().BeEmpty();
     }
 }
