@@ -12,7 +12,7 @@ public class GetChildrenTests : TestBase
     [InlineData(4, new int[] { })]
     public async Task GetChildren_ByRootNodeId_ReturnsChildren(int parentId, int[] expectedNodeIds)
     {
-        var children = await _treeService.GetChildren(parentId).ToListAsync();
+        var children = await TreeNodeManager.GetChildren(parentId).ToListAsync();
 
         children.Should().NotBeNull();
         children.Select(c => c.Id).Should().Equal(expectedNodeIds);
@@ -24,17 +24,17 @@ public class GetChildrenTests : TestBase
     [InlineData(4, new int[] { })]
     public async Task GetChildren_ByRootNode_ReturnsChildren(int parentId, int[] expectedNodeIds)
     {
-        var rootEntity = await _dbContext.TestTreeEntities.FindAsync(parentId);
+        var rootEntity = await DbContext.TestTreeEntities.FindAsync(parentId);
         rootEntity.Should().NotBeNull();
 
-        var children = await _treeService.GetChildren(rootEntity).ToListAsync();
+        var children = await TreeNodeManager.GetChildren(rootEntity).ToListAsync();
         children.Select(c => c.Id).Should().Equal(expectedNodeIds);
     }
 
     [Fact]
     public async Task GetChildren_ByRootNode_ThrowNullException()
     {
-        var act = () => _treeService.GetChildren(null!).ToListAsync();
+        var act = () => TreeNodeManager.GetChildren(null!).ToListAsync();
         await act.Should().ThrowAsync<ArgumentNullException>();
     }
 }

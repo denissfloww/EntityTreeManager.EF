@@ -12,7 +12,7 @@ public class GetByIdAsyncTests : TestBase
     [InlineData(6)]
     public async Task GetById_ByExistId_ReturnsNode(int nodeId)
     {
-        var node = await _treeService.GetByIdAsync(nodeId);
+        var node = await TreeNodeManager.GetByIdAsync(nodeId);
         node.Should().NotBeNull();
     }
 
@@ -21,7 +21,7 @@ public class GetByIdAsyncTests : TestBase
     [InlineData(8)]
     public async Task GetById_NonExistingId_ReturnsNull(int nodeId)
     {
-        var node = await _treeService.GetByIdAsync(nodeId);
+        var node = await TreeNodeManager.GetByIdAsync(nodeId);
         node.Should().BeNull();
     }
 }

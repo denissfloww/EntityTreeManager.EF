@@ -13,7 +13,7 @@
 /// This interface provides an abstraction for working with tree structures, 
 /// offering methods for managing nodes as well as other operations related to hierarchical data structures.
 /// </remarks>
-public interface ITreeService<TNode, TId> where TNode : TreeNode<TId>
+public interface ITreeNodeManager<TNode, TId> where TNode : TreeNode<TId>
     where TId : struct
 {
     /// <summary>

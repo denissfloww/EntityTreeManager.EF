@@ -10,9 +10,9 @@ public class DetachFromParentAsyncTests : TestBase
     [InlineData(4)]
     public async Task DetachFromParentAsync_ByChildIdExistParent_ShouldDetach(int childId)
     {
-        await _treeService.DetachFromParentAsync(childId);
+        await TreeNodeManager.DetachFromParentAsync(childId);
         
-        var childNode = await _treeService.GetByIdAsync(childId);
+        var childNode = await TreeNodeManager.GetByIdAsync(childId);
         
         childNode.Should().NotBeNull();
         childNode.ParentId.Should().BeNull();
@@ -23,7 +23,7 @@ public class DetachFromParentAsyncTests : TestBase
     [InlineData(3)]
     public async Task DetachFromParentAsync_ByChildIdNonExistParent_NotThrowsException(int childId)
     {
-        var act = async () => await _treeService.DetachFromParentAsync(childId);
+        var act = async () => await TreeNodeManager.DetachFromParentAsync(childId);
         await act.Should().NotThrowAsync();
     }
 }

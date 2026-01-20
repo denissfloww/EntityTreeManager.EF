@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EntityTreeManager.EF.Infrastructure;
 
-public class TreeService<TDbContext, TNode, TId>(
-    TDbContext dbContext) : ITreeService<TNode, TId> where TDbContext : DbContext
+public class TreeNodeManager<TDbContext, TNode, TId>(
+    TDbContext dbContext) : ITreeNodeManager<TNode, TId> where TDbContext : DbContext
     where TNode : TreeNode<TId>
     where TId : struct
 {

@@ -11,7 +11,7 @@ public class GetParentAsyncTests : TestBase
     [InlineData(7, 5)]
     public async Task GetParentAsync_ByChildId_ReturnsParent(int childId, int expectedParentId)
     {
-        var parent = await _treeService.GetParentAsync(childId);
+        var parent = await TreeNodeManager.GetParentAsync(childId);
 
         parent.Should().NotBeNull();
         parent!.Id.Should().Be(expectedParentId);
@@ -24,10 +24,10 @@ public class GetParentAsyncTests : TestBase
     [InlineData(7, 5)]
     public async Task GetParentAsync_ByChild_ReturnsParent(int childId, int expectedParentId)
     {
-        var child = await _dbContext.TestTreeEntities.FindAsync(childId);
+        var child = await DbContext.TestTreeEntities.FindAsync(childId);
         child.Should().NotBeNull();
 
-        var parent = await _treeService.GetParentAsync(child);
+        var parent = await TreeNodeManager.GetParentAsync(child);
         
         parent.Should().NotBeNull();
         parent!.Id.Should().Be(expectedParentId);
@@ -39,7 +39,7 @@ public class GetParentAsyncTests : TestBase
     [InlineData(1)]
     public async Task GetParentAsync_ByRootNodeId_ReturnsNull(int rootId)
     {
-        var root = await _treeService.GetParentAsync(rootId);
+        var root = await TreeNodeManager.GetParentAsync(rootId);
 
         root.Should().BeNull();
     }
@@ -49,10 +49,10 @@ public class GetParentAsyncTests : TestBase
     [InlineData(1)]
     public async Task GetParentAsync_ByRootNode_ReturnsNull(int rootId)
     {
-        var root = await _dbContext.TestTreeEntities.FindAsync(rootId);
+        var root = await DbContext.TestTreeEntities.FindAsync(rootId);
         root.Should().NotBeNull();
         
-        var parent = await _treeService.GetParentAsync(root);
+        var parent = await TreeNodeManager.GetParentAsync(root);
         parent.Should().BeNull();
     }
 }
