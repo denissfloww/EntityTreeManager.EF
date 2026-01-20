@@ -41,48 +41,54 @@ public interface ITreeNodeManager<TNode, in TId>
     /// Asynchronously retrieves a node by its identifier.
     /// </summary>
     /// <param name="id">The identifier of the node.</param>
+    /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
     /// <returns>A <see cref="IQueryable{TNode}"/> collection of child nodes.</returns>
-    Task<TNode?> GetByIdAsync(TId id);
+    Task<TNode?> GetByIdAsync(TId id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Asynchronously retrieves the parent of the specified node.
     /// </summary>
     /// <param name="node">The node whose parent is to be retrieved.</param>
+    /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
     /// <returns>
     /// A <see cref="Task{TNode}"/> that represents the asynchronous operation. 
     /// The task result contains the parent node if found; otherwise, <c>null</c>.
     /// </returns>
-    Task<TNode?> GetParentAsync(TNode node);
+    Task<TNode?> GetParentAsync(TNode node, CancellationToken cancellationToken);
 
     /// <summary>
     /// Asynchronously retrieves the parent of the node specified by its identifier.
     /// </summary>
     /// <param name="id">The identifier of the node whose parent is to be retrieved.</param>
+    /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
     /// <returns>
     /// A <see cref="Task{TNode}"/> that represents the asynchronous operation. 
     /// The task result contains the parent node if found; otherwise, <c>null</c>.
     /// </returns>
-    Task<TNode?> GetParentAsync(TId id);
+    Task<TNode?> GetParentAsync(TId id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Asynchronously attaches a node to a new parent.
     /// </summary>
     /// <param name="nodeId">The identifier of the node to be attached.</param>
     /// <param name="parentId">The identifier of the parent node.</param>
+    /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    Task AttachParentAsync(TId nodeId, TId parentId);
+    Task AttachParentAsync(TId nodeId, TId parentId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Asynchronously detaches a node from its current parent.
     /// </summary>
     /// <param name="nodeId">The identifier of the node to be detached.</param>
+    /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    Task DetachFromParentAsync(TId nodeId);
+    Task DetachFromParentAsync(TId nodeId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Asynchronously removes a node from the tree and reassigns its children to its parent node.
     /// </summary>
     /// <param name="nodeId">The identifier of the node to be removed.</param>
+    /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    Task DetachFromTreeAsync(TId nodeId);
+    Task DetachFromTreeAsync(TId nodeId, CancellationToken cancellationToken);
 }
