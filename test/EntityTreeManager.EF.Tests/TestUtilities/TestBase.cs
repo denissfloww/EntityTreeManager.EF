@@ -5,13 +5,13 @@ namespace EntityTreeManager.EF.Tests.TestUtilities;
 
 public class TestBase : IAsyncLifetime
 {
-    protected TestTreeContext _dbContext { get; private set; }
-    protected TreeService<TestTreeContext, TestTreeNode, int> _treeService { get; private set; }
+    protected TestTreeContext DbContext { get; private set; } = null!;
+    protected TreeNodeManager<TestTreeContext, TestTreeNode, int> TreeNodeManager { get; private set; } = null!;
 
     public async Task InitializeAsync()
     {
-        _dbContext = GetDbContext();
-        _treeService = new TreeService<TestTreeContext, TestTreeNode, int>(_dbContext);
+        DbContext = GetDbContext();
+        TreeNodeManager = new TreeNodeManager<TestTreeContext, TestTreeNode, int>(DbContext);
 
         await SeedDatabase();
     }
@@ -37,8 +37,8 @@ public class TestBase : IAsyncLifetime
             new TestTreeNode { Id = 7, ParentId = 5 }
         };
 
-        _dbContext.AddRange(entities);
-        await _dbContext.SaveChangesAsync();
+        DbContext.AddRange(entities);
+        await DbContext.SaveChangesAsync();
     }
 
     public Task DisposeAsync()
