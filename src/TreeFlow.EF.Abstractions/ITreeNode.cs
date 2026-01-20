@@ -1,4 +1,4 @@
-﻿namespace EntityTreeManager.EF.Abstractions;
+﻿namespace TreeFlow.EF.Abstractions;
 
 /// <summary>
 /// Defines the contract for a tree node with hierarchical parent-child relationships.

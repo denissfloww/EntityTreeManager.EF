@@ -1,7 +1,7 @@
-﻿using EntityTreeManager.EF.Core;
+﻿using TreeFlow.EF.Core;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityTreeManager.EF.Tests.TestUtilities;
+namespace TreeFlow.EF.Tests.TestUtilities;
 
 public class TestBase : IAsyncLifetime
 {

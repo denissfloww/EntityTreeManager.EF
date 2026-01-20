@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace EntityTreeManager.EF.Tests.TestUtilities;
+namespace TreeFlow.EF.Tests.TestUtilities;
 
 public class TestTreeContext(DbContextOptions options) : DbContext(options)
 {

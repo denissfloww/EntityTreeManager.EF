@@ -1,4 +1,6 @@
-﻿namespace EntityTreeManager.EF.Abstractions;
+﻿using TreeFlow.EF.Abstractions;
+
+namespace TreeFlow.EF.Abstractions;
 
 /// <summary>
 /// Defines a base interface for operations on tree nodes.

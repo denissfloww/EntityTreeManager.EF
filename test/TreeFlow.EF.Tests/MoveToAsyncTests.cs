@@ -1,8 +1,8 @@
-﻿using EntityTreeManager.EF.Tests.TestUtilities;
+﻿using TreeFlow.EF.Tests.TestUtilities;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityTreeManager.EF.Tests;
+namespace TreeFlow.EF.Tests;
 
 public class MoveToAsyncTests : TestBase
 {
