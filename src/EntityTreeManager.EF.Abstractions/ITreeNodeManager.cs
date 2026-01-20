@@ -4,7 +4,7 @@
 /// Defines a base interface for operations on tree nodes.
 /// </summary>
 /// <typeparam name="TNode">
-/// The type of the tree node, which must inherit from <see cref="TreeNode{TId}"/>.
+/// The type of the tree node, which must implement <see cref="ITreeNode{TNode,TId}"/>.
 /// </typeparam>
 /// <typeparam name="TId">
 /// The type of the tree node identifier.
@@ -13,35 +13,36 @@
 /// This interface provides an abstraction for working with tree structures, 
 /// offering methods for managing nodes as well as other operations related to hierarchical data structures.
 /// </remarks>
-public interface ITreeNodeManager<TNode, TId> where TNode : TreeNode<TId>
+public interface ITreeNodeManager<TNode, in TId> 
+    where TNode : class, ITreeNode<TNode, TId>
     where TId : struct
 {
     /// <summary>
     /// Retrieves the root nodes of the tree.
     /// </summary>
     /// <returns>A <see cref="IQueryable{TNode}"/> collection of root nodes.</returns>
-    IQueryable<TreeNode<TId>> GetRoots();
+    IQueryable<TNode> GetRoots();
 
     /// <summary>
     /// Retrieves the child nodes of a specified parent node by its identifier.
     /// </summary>
     /// <param name="id">The identifier of the parent node.</param>
     /// <returns>A <see cref="IQueryable{TNode}"/> collection of child nodes.</returns>
-    IQueryable<TreeNode<TId>> GetChildren(TId id);
+    IQueryable<TNode> GetChildren(TId id);
 
     /// <summary>
     /// Retrieves the child nodes of a specified parent node.
     /// </summary>
     /// <param name="node">The parent node.</param>
     /// <returns>A <see cref="IQueryable{TNode}"/> collection of child nodes.</returns>
-    IQueryable<TreeNode<TId>> GetChildren(TreeNode<TId> node);
+    IQueryable<TNode> GetChildren(TNode node);
 
     /// <summary>
     /// Asynchronously retrieves a node by its identifier.
     /// </summary>
     /// <param name="id">The identifier of the node.</param>
     /// <returns>A <see cref="IQueryable{TNode}"/> collection of child nodes.</returns>
-    Task<TreeNode<TId>?> GetByIdAsync(TId id);
+    Task<TNode?> GetByIdAsync(TId id);
 
     /// <summary>
     /// Asynchronously retrieves the parent of the specified node.
@@ -51,7 +52,7 @@ public interface ITreeNodeManager<TNode, TId> where TNode : TreeNode<TId>
     /// A <see cref="Task{TNode}"/> that represents the asynchronous operation. 
     /// The task result contains the parent node if found; otherwise, <c>null</c>.
     /// </returns>
-    Task<TreeNode<TId>?> GetParentAsync(TreeNode<TId> node);
+    Task<TNode?> GetParentAsync(TNode node);
 
     /// <summary>
     /// Asynchronously retrieves the parent of the node specified by its identifier.
@@ -61,7 +62,7 @@ public interface ITreeNodeManager<TNode, TId> where TNode : TreeNode<TId>
     /// A <see cref="Task{TNode}"/> that represents the asynchronous operation. 
     /// The task result contains the parent node if found; otherwise, <c>null</c>.
     /// </returns>
-    Task<TreeNode<TId>?> GetParentAsync(TId id);
+    Task<TNode?> GetParentAsync(TId id);
 
     /// <summary>
     /// Asynchronously attaches a node to a new parent.

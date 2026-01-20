@@ -3,19 +3,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EntityTreeManager.EF.Core;
 
-public class TreeNodeManager<TDbContext, TNode, TId>(
-    TDbContext dbContext) : ITreeNodeManager<TNode, TId> where TDbContext : DbContext
-    where TNode : TreeNode<TId>
+public class TreeNodeManager<TNode, TId>(
+    DbContext dbContext) : ITreeNodeManager<TNode, TId> 
+    where TNode : class, ITreeNode<TNode, TId>
     where TId : struct
 {
     private DbSet<TNode> TreeSet => dbContext.Set<TNode>();
 
-    public IQueryable<TreeNode<TId>> GetRoots()
+    public IQueryable<TNode> GetRoots()
     {
         return TreeSet.Where(c => c.ParentId == null).Include(c => c.Children);
     }
 
-    public IQueryable<TreeNode<TId>> GetChildren(TId id)
+    public IQueryable<TNode> GetChildren(TId id)
     {
         return TreeSet.Where(c => c.ParentId != null &&
                                   EqualityComparer<TId>.Default.Equals(c.ParentId.Value,
@@ -24,7 +24,7 @@ public class TreeNodeManager<TDbContext, TNode, TId>(
             .Include(c => c.Children);
     }
 
-    public IQueryable<TreeNode<TId>> GetChildren(TreeNode<TId> node)
+    public IQueryable<TNode> GetChildren(TNode node)
     {
         ArgumentNullException.ThrowIfNull(node, nameof(node));
 
@@ -33,7 +33,7 @@ public class TreeNodeManager<TDbContext, TNode, TId>(
             .Include(c => c.Children);
     }
 
-    public async Task<TreeNode<TId>?> GetByIdAsync(TId id)
+    public async Task<TNode?> GetByIdAsync(TId id)
     {
         return await TreeSet.Include(c => c.Parent)
             .Include(c => c.Children)
@@ -41,7 +41,7 @@ public class TreeNodeManager<TDbContext, TNode, TId>(
                 id));
     }
 
-    public async Task<TreeNode<TId>?> GetParentAsync(TreeNode<TId> node)
+    public async Task<TNode?> GetParentAsync(TNode node)
     {
         ArgumentNullException.ThrowIfNull(node, nameof(node));
 
@@ -53,7 +53,7 @@ public class TreeNodeManager<TDbContext, TNode, TId>(
         return await GetByIdAsync(node.ParentId.Value);
     }
 
-    public async Task<TreeNode<TId>?> GetParentAsync(TId id)
+    public async Task<TNode?> GetParentAsync(TId id)
     {
         var treeObject = await GetByIdAsync(id);
 

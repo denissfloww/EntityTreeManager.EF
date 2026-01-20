@@ -10,7 +10,7 @@ public static class ModelBuilderExtensions
     /// Applies the tree node entity configuration to the <see cref="ModelBuilder"/> instance.
     /// </summary>
     /// <typeparam name="TNode">
-    /// The type of the tree node entity, which must inherit from <see cref="TreeNode{TId}"/>.
+    /// The type of the tree node, which must implement <see cref="ITreeNode{TNode,TId}"/>.
     /// </typeparam>
     /// <typeparam name="TId">
     /// The type of the tree node identifier, which must be a value type.
@@ -27,7 +27,7 @@ public static class ModelBuilderExtensions
     /// including the primary key and self-referencing foreign key relationships.
     /// </remarks>
     public static ModelBuilder UseTreeConfiguration<TNode, TId>(this ModelBuilder modelBuilder)
-        where TNode : TreeNode<TId>
+        where TNode : class, ITreeNode<TNode, TId>
         where TId : struct
     {
         modelBuilder.ApplyConfiguration(new TreeEntityConfiguration<TNode, TId>());
