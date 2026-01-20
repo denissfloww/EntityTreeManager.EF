@@ -1,4 +1,4 @@
-﻿using EntityTreeManager.EF.Domain;
+﻿using EntityTreeManager.EF.Abstractions;
 
 namespace EntityTreeManager.EF.Tests.TestUtilities;
 

@@ -1,4 +1,4 @@
-﻿namespace EntityTreeManager.EF.Domain;
+﻿namespace EntityTreeManager.EF.Abstractions;
 
 //TODO: Replace with an ITreeNode
 /// <summary>

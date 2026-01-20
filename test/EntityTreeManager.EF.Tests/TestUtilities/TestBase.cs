@@ -1,4 +1,4 @@
-﻿using EntityTreeManager.EF.Infrastructure;
+﻿using EntityTreeManager.EF.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace EntityTreeManager.EF.Tests.TestUtilities;

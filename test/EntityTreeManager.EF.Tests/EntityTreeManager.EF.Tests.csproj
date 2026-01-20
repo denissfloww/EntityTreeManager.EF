@@ -30,11 +30,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\..\src\EntityTreeManager.EF\EntityTreeManager.EF.csproj" />
+      <ProjectReference Include="..\..\src\EntityTreeManager.EF.Core\EntityTreeManager.EF.Core.csproj" />
     </ItemGroup>
     
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\EntityTreeManager.EF\EntityTreeManager.EF.csproj" />
-    </ItemGroup>
-
 </Project>

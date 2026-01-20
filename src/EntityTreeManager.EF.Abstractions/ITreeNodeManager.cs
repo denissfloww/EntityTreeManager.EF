@@ -1,4 +1,4 @@
-﻿namespace EntityTreeManager.EF.Domain;
+﻿namespace EntityTreeManager.EF.Abstractions;
 
 /// <summary>
 /// Defines a base interface for operations on tree nodes.

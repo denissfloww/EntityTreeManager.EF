@@ -1,4 +1,4 @@
-﻿namespace EntityTreeManager.EF.Domain;
+﻿namespace EntityTreeManager.EF.Abstractions;
 
 public interface ITreeNode<TId> where TId : struct
 {
