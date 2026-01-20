@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{811E5B61-E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityTreeManager.EF", "src\EntityTreeManager.EF\EntityTreeManager.EF.csproj", "{D4D9381B-36CC-4EFF-9D52-74A6BE39A723}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{F07039DD-8296-4800-B828-382A5DD925E4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityTreeManager.EF.Tests", "test\EntityTreeManager.EF.Tests\EntityTreeManager.EF.Tests.csproj", "{24A5CAC9-79E0-4845-84CD-482409E202A1}"
 EndProject
 Global
