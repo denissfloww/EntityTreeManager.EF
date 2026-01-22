@@ -6,13 +6,10 @@ namespace TreeFlow.EF.Tests.TestUtilities;
 public class TestBase : IAsyncLifetime
 {
     protected TestTreeContext DbContext { get; private set; } = null!;
-    protected TreeNodeManager<TestTreeNode, int> TreeNodeManager { get; private set; } = null!;
 
     public async Task InitializeAsync()
     {
         DbContext = GetDbContext();
-        TreeNodeManager = new TreeNodeManager<TestTreeNode, int>(DbContext);
-
         await SeedDatabase();
     }
 

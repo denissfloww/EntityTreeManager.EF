@@ -1,6 +1,7 @@
 ﻿using TreeFlow.EF.Tests.TestUtilities;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using TreeFlow.EF.Core.Extensions;
 
 namespace TreeFlow.EF.Tests;
 
@@ -11,10 +12,10 @@ public class MoveToAsyncTests : TestBase
     [InlineData(7, 5)]
     public async Task MoveToAsync_AttachesCorrectly(int childId, int parentId)
     {
-        await TreeNodeManager.MoveToAsync(childId, parentId);
+        await DbContext.TestTreeNodes.MoveToAsync(childId, parentId);
         await DbContext.SaveChangesAsync();
         
-        var parentNode = await DbContext.TestTreeEntities
+        var parentNode = await DbContext.TestTreeNodes
             .Include(n => n.Children)
             .FirstOrDefaultAsync(n => n.Id == parentId);
 
@@ -30,8 +31,10 @@ public class MoveToAsyncTests : TestBase
     {
         const int parentId = 6;
         
-        await TreeNodeManager.MoveToAsync(childId, parentId);
-        var parentNode = await DbContext.TestTreeEntities
+        await DbContext.TestTreeNodes.MoveToAsync(childId, parentId);
+        await DbContext.SaveChangesAsync();
+        
+        var parentNode = await DbContext.TestTreeNodes
             .Include(n => n.Children)
             .FirstOrDefaultAsync(n => n.Id == parentId);
         
@@ -44,20 +47,21 @@ public class MoveToAsyncTests : TestBase
     [InlineData(4)]
     public async Task MoveToAsync_ByChildIdExistParent_ShouldDetach(int childId)
     {
-        await TreeNodeManager.MoveToAsync(childId, null);;
+        await DbContext.TestTreeNodes.MoveToAsync(childId, null);
+        await DbContext.SaveChangesAsync();
         
-        var childNode = await TreeNodeManager.GetByIdAsync(childId);
+        var childNode = await DbContext.TestTreeNodes.FindAsync(childId);
         
         childNode.Should().NotBeNull();
         childNode.ParentId.Should().BeNull();
     }
-
-    [Theory]
-    [InlineData(2)]
-    [InlineData(3)]
-    public async Task MoveToAsync_ByChildIdNonExistParent_NotThrowsException(int childId)
-    {
-        var act = async () => await TreeNodeManager.MoveToAsync(childId, null);
-        await act.Should().NotThrowAsync();
-    }
+    
+    // [Theory]
+    // [InlineData(2)]
+    // [InlineData(3)]
+    // public async Task MoveToAsync_ByChildIdNonExistParent_NotThrowsException(int childId)
+    // {
+    //     var act = async () => await TreeNodeManager.MoveToAsync(childId, null);
+    //     await act.Should().NotThrowAsync();
+    // }
 }

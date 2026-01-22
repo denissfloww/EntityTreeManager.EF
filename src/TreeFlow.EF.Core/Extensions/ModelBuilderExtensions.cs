@@ -26,7 +26,7 @@ public static class ModelBuilderExtensions
     /// configuration to the Entity Framework model. It sets up the entity mappings for a tree structure, 
     /// including the primary key and self-referencing foreign key relationships.
     /// </remarks>
-    public static ModelBuilder UseTreeConfiguration<TNode, TId>(this ModelBuilder modelBuilder)
+    public static ModelBuilder UseTreeFlow<TNode, TId>(this ModelBuilder modelBuilder)
         where TNode : class, ITreeNode<TNode, TId>
         where TId : struct
     {
